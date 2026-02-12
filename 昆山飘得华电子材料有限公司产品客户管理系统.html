@@ -766,8 +766,9 @@
       topCols.forEach(tc => {
         const childCols = getChildCols(cols, tc.id);
         if (childCols.length > 0) {
+          // 父列 + 子列一起占多列，父列作为第一个子列展示
           const th = document.createElement('th');
-          th.colSpan = childCols.length;
+          th.colSpan = 1 + childCols.length;
           th.innerHTML = `
             <div class="col-header">
               <input type="text" value="${tc.label}" data-id="${tc.id}">
@@ -777,6 +778,14 @@
               </div>
             </div>`;
           tr1.appendChild(th);
+          // 第二行：先显示原列（父列）作为第一个子列，再显示其余子列
+          const thParent = document.createElement('th');
+          thParent.className = 'sub-col-header';
+          thParent.innerHTML = `
+            <div class="col-header">
+              <input type="text" value="${tc.label}" data-id="${tc.id}">
+            </div>`;
+          tr2.appendChild(thParent);
           childCols.forEach(cc => {
             const th2 = document.createElement('th');
             th2.className = 'sub-col-header';
@@ -818,9 +827,10 @@
       if (hasAnyChildren) thead.appendChild(tr2);
 
       const tbody = document.createElement('tbody');
+      // 有子列时：父列作为第一个子列展示（保留原列数据），再展示各子列
       const flatCols = topCols.flatMap(tc => {
         const children = getChildCols(cols, tc.id);
-        return children.length > 0 ? children : [tc];
+        return children.length > 0 ? [tc, ...children] : [tc];
       });
       rows.forEach(row => {
         const tr = document.createElement('tr');
