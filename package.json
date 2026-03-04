@@ -1,0 +1,20 @@
+{
+  "name": "label-01968",
+  "version": "1.0.0",
+  "description": "产品客户管理系统，面向供应商场景，具备监控、数据管理、操作日志三大模块，数据持久化于 localStorage，支持 Excel 导入导出及操作恢复。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.jzxhnh.com/prompt2repo/label-01968.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

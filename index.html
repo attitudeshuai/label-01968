@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="昆山飘得华电子材料有限公司产品客户管理系统">
+  <title>昆山飘得华电子材料有限公司产品客户管理系统</title>
+  <script src="js/vendor/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-pattern"></div>
+
+  <!-- Login Page -->
+  <div class="login-page" id="login-page">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <h1>昆山飘得华电子材料有限公司</h1>
+        <p>产品客户管理系统</p>
+      </div>
+      <form class="login-form" id="login-form">
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input type="text" id="username" name="username" placeholder="请输入用户名" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input type="password" id="password" name="password" placeholder="请输入密码" required autocomplete="current-password">
+        </div>
+        <div class="login-error" id="login-error">用户名或密码错误</div>
+        <button type="submit" class="login-btn">登 录</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="app-container" id="app-container">
+    <header class="app-header">
+      <h1 class="app-title">昆山飘得华电子材料有限公司产品客户管理系统</h1>
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-panel="monitor">监控界面</button>
+        <button class="nav-tab" data-panel="data">数据管理</button>
+        <button class="nav-tab" data-panel="log">操作日志</button>
+      </nav>
+      <div class="user-info">
+        <span class="user-name" id="current-user"></span>
+        <button class="logout-btn" id="logout-btn">退出登录</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Monitor Panel -->
+      <section class="panel active" id="panel-monitor">
+        <div class="dashboard-grid" id="stats-grid"></div>
+        <div class="data-section">
+          <h3 class="section-title">客户列表（点击查看该客户使用的产品及详情）</h3>
+          <div class="entity-grid" id="customer-grid"></div>
+        </div>
+        <div class="data-section">
+          <h3 class="section-title">产品列表（点击查看使用该产品的客户及详情）</h3>
+          <div class="entity-grid" id="product-grid"></div>
+        </div>
+      </section>
+
+      <!-- Data Management Panel -->
+      <section class="panel" id="panel-data">
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btn-add-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            添加行
+          </button>
+          <button class="btn btn-secondary" id="btn-add-col">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            添加列
+          </button>
+          <button class="btn btn-secondary" id="btn-add-subcol">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            添加子列
+          </button>
+          <button class="btn btn-secondary" id="btn-export">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            导出 Excel
+          </button>
+          <input type="file" class="file-input" id="file-import" accept=".xlsx,.xls">
+          <button class="btn btn-secondary" id="btn-import">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            导入 Excel
+          </button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="data-table"></table>
+        </div>
+      </section>
+
+      <!-- Log Panel -->
+      <section class="panel" id="panel-log">
+        <h3 class="section-title">操作历史（点击"恢复"可还原到该操作之前的状态）</h3>
+        <div class="log-list" id="log-list"></div>
+      </section>
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detail-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modal-title">详情</h3>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <table class="detail-table" id="detail-table"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

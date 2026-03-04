@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    container_name: pdh-management-system
+    ports:
+      - "8081:80"
+    restart: unless-stopped
